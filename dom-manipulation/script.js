@@ -13,7 +13,7 @@ if (storedQuotes){
     quotes = JSON.stringify(storedQuotes);
 }
 
-const populateCategoryDropDown = () => {
+const populateCategories = () => {
     const categories = ['all', ...new Set(quotes.map(quote => quote.category))];
     categoryFilter.innerHTML = categories.map(category => `<option value="${category}">${category}</option>`).join('');
     const savedCategory = localStorage.getItem('selectedCategory');

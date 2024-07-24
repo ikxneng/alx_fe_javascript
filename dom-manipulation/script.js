@@ -7,8 +7,11 @@ const quotes = [
     {text: "A winner is a loser that tried one more time", category: "Motivational"},
     {text: "You need to remember that the world is bigger than our world and the possibilities are bigger than our experiences", category: "Motivational"},
 ];
+const storedQuotes = localStorage.getItem('quotes');
 
-localStorage.setItem('quotes', JSON.stringify(quotes));
+if (storedQuotes){
+    quotes = JSON.stringify(storedQuotes);
+}
 
 const showRandomQuote = () => {
     const randomIndex = Math.floor(Math.random() * quotes.length);

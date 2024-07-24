@@ -32,6 +32,29 @@ document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 
 showRandomQuote();
 
+const createAddQuoteForm = (parentElement) => {
+
+    const quoteTextInput = document.createElement('input');
+    quoteTextInput.type = 'text';
+    quoteTextInput.id = 'newQuoteText';
+    quoteTextInput.placeholder = 'Enter a new quote';
+
+
+    const quoteCategoryInput = document.createElement('input');
+    quoteCategoryInput.type = 'text';
+    quoteCategoryInput.id = 'newQuoteCategory';
+    quoteCategoryInput.placeholder = 'Enter quote category';
+
+    const addQuoteButton = document.createElement('button');
+    addQuoteButton.id = 'addQuoteButton';
+    addQuoteButton.textContent = 'Add Quote';
+
+    parentElement.appendChild(quoteTextInput);
+    parentElement.appendChild(quoteCategoryInput);
+    parentElement.appendChild(addQuoteButton);
+
+    addQuoteButton.addEventListener('click', addQuote);
+};
 
 const addQuote = () => {
     // Use .value to get the values from input elements

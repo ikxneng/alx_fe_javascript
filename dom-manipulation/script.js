@@ -140,6 +140,46 @@ function importFromJsonFile(event) {
     return category === 'all' ? quotes : quotes.filter(quote => quote.category === category);
 };
 
+const displayNotification = (message) => {
+    alert(message); 
+};
+
+const displayConflictNotification = (conflictCount) => {
+    const userChoice = confirm(`${conflictCount} conflicts detected. Would you like to resolve them manually?`);
+    if (userChoice) {
+        displayConflictResolutionUI();
+    } else {
+        alert('Server data has been prioritized.');
+    }
+};
+
+const displayConflictResolutionUI = () => {
+    const conflictContainer = document.getElementById('conflictContainer');
+    conflictContainer.innerHTML = conflicts.map((conflict, index) => `
+        <div>
+            <p>Conflict ${index + 1}:</p>
+            <p><strong>Local:</strong> ${conflict.local.text} (${conflict.local.category})</p>
+            <p><strong>Server:</strong> ${conflict.server.text} (${conflict.server.category})</p>
+            <button onclick="resolveConflict(${index}, 'local')">Keep Local</button>
+            <button onclick="resolveConflict(${index}, 'server')">Keep Server</button>
+        </div>
+    `).join('');
+};
+
+const resolveConflict = (index, choice) => {
+    if (choice === 'local') {
+        quotes = quotes.map(q => q.text === conflicts[index].server.text ? conflicts[index].local : q);
+    }
+    conflicts.splice(index, 1);
+    if (conflicts.length === 0) {
+        localStorage.setItem('quotes', JSON.stringify(quotes));
+        alert('All conflicts resolved.');
+        document.getElementById('conflictContainer').innerHTML = '';
+    } else {
+        displayConflictResolutionUI();
+    }
+};
+
 
 const filterQuotes = () => {
     const selectedCategory = categoryFilter.value;

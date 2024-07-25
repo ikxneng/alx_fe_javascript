@@ -89,7 +89,7 @@ async function fetchQuotesFromServer() {
 const syncQuotes = async () => {
     console.log('Syncing quotes with server...');
     await fetchQuotes();
-    console.log('Sync complete.');
+    console.log('Quotes synced with server!');
 };
 
 const addQuote = () => {

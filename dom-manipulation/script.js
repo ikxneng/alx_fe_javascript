@@ -13,7 +13,7 @@ if (storedQuotes){
     quotes = JSON.stringify(storedQuotes);
 }
 
-const populateCategories = () => {
+const populateCategories= () => {
     const categories = ['all', ...new Set(quotes.map(quote => quote.category))];
     categoryFilter.innerHTML = categories.map(category => `<option value="${category}">${category}</option>`).join('');
     const savedCategory = localStorage.getItem('selectedCategory');
@@ -41,9 +41,6 @@ if (lastViewedQuote){
     showRandomQuote();
 }
 
-
-
-
 showRandomQuote();
 
 const createAddQuoteForm = (parentElement) => {
@@ -70,14 +67,33 @@ const createAddQuoteForm = (parentElement) => {
     addQuoteButton.addEventListener('click', addQuote);
 };
 
+async function fetchQuotesFromServer() {
+
+    try{
+        await fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            body: JSON.stringify(newQuoteText),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+    });
+
+    } catch (error){
+        console.error('Error posting new quote:', error);
+    }
+
+}
+
 const addQuote = () => {
     // Use .value to get the values from input elements
     const newQuoteTextValue = newQuoteText.value.trim();
     const newQuoteCategoryValue = newQuoteCategory.value.trim();
     
     if (newQuoteTextValue && newQuoteCategoryValue) {
-        quotes.push({text: newQuoteTextValue, category: newQuoteCategoryValue});
+        const newQuote = {text: newQuoteTextValue, category: newQuoteCategoryValue} 
+        quotes.push(newQuote);
         localStorage.setItem('quotes', JSON.stringify(quotes));
+
         // Clear the input fields
         newQuoteText.value = '';
         newQuoteCategory.value = '';

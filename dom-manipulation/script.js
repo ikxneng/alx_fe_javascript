@@ -156,6 +156,6 @@ document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 document.getElementById('exportQuotes').addEventListener('click', quoteExports);
 document.getElementById('importFile').addEventListener('change', importFromJsonFile);
 
+setInterval(syncQuotes, 60000);
 
 populateCategoryDropDown();
-

@@ -13,6 +13,8 @@ if (storedQuotes){
     quotes = JSON.stringify(storedQuotes);
 }
 
+let conflicts = [];
+
 const populateCategories= () => {
     const categories = ['all', ...new Set(quotes.map(quote => quote.category))];
     categoryFilter.innerHTML = categories.map(category => `<option value="${category}">${category}</option>`).join('');
@@ -74,7 +76,7 @@ async function fetchQuotesFromServer() {
             method: 'POST',
             body: JSON.stringify(newQuoteText),
             headers: {
-                'Content-type': 'application/json; charset=UTF-8',
+                'Content-Type': 'application/json; charset=UTF-8',
             },
     });
 
@@ -83,6 +85,12 @@ async function fetchQuotesFromServer() {
     }
 
 }
+
+const syncQuotes = async () => {
+    console.log('Syncing quotes with server...');
+    await fetchQuotes();
+    console.log('Sync complete.');
+};
 
 const addQuote = () => {
     // Use .value to get the values from input elements
@@ -150,3 +158,4 @@ document.getElementById('importFile').addEventListener('change', importFromJsonF
 
 
 populateCategoryDropDown();
+
